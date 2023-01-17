@@ -13,6 +13,15 @@ interface RequestWithBody extends Request {
   };
 }
 
+interface DataStructure {
+  [key: string]: CourseItem[];
+}
+
+interface CourseItem {
+  title: string;
+  count: number;
+}
+
 const checkLogin = (
   req: RequestWithBody,
   res: Response,
@@ -38,7 +47,7 @@ export class CrawlerController {
     const analyzer = Analyzer1.getInstance();
     new Crawler(url, analyzer);
 
-    res.json(getResponseData(true));
+    res.json(getResponseData<boolean>(true));
   }
 
   @get("/showData")
@@ -49,10 +58,10 @@ export class CrawlerController {
         path.resolve(__dirname, "../../data/course.json"),
         "utf8"
       );
-      res.json(getResponseData(JSON.parse(result)));
+      res.json(getResponseData<DataStructure>(JSON.parse(result)));
       // res.json(JSON.parse(result));
     } catch (e) {
-      res.json(getResponseData(null, "show error!"));
+      res.json(getResponseData<boolean>(false, "show error!"));
       // res.send("show error!");
     }
   }
