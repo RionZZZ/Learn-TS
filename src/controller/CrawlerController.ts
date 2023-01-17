@@ -27,7 +27,7 @@ const checkLogin = (
   }
 };
 
-@controller("/")
+@controller("/api")
 export class CrawlerController {
   @get("/getData")
   @use(checkLogin)
