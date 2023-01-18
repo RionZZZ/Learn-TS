@@ -14,7 +14,7 @@ export class LoginController {
   @get("/isLogin")
   isLogin(req: RequestWithBody, res: Response): void {
     const isLogin = !!(req.session ? req.session.login : false);
-    res.json(getResponseData<boolean>(isLogin));
+    res.json(getResponseData<responseResult.isLogin>(isLogin));
   }
 
   @post("/login")
@@ -22,15 +22,15 @@ export class LoginController {
     const { password } = req.body;
     const isLogin = req.session ? req.session.login : false;
     if (isLogin) {
-      res.json(getResponseData<boolean>(true, "already login!"));
+      res.json(getResponseData<responseResult.login>(true, "already login!"));
       // res.send("already login!");
     } else {
       if (password === "1" && req.session) {
         req.session.login = true;
-        res.json(getResponseData<boolean>(true));
+        res.json(getResponseData<responseResult.login>(true));
         // res.send("login success!");
       } else {
-        res.json(getResponseData<boolean>(false, "login error!"));
+        res.json(getResponseData<responseResult.login>(false, "login error!"));
         // res.send("login error!");
       }
     }
@@ -41,7 +41,7 @@ export class LoginController {
     if (req.session) {
       req.session.login = undefined;
     }
-    res.json(getResponseData<boolean>(true));
+    res.json(getResponseData<responseResult.logout>(true));
     res.redirect("/");
   }
 

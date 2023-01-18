@@ -13,14 +13,14 @@ interface RequestWithBody extends Request {
   };
 }
 
-interface DataStructure {
-  [key: string]: CourseItem[];
-}
+// interface DataStructure {
+//   [key: string]: CourseItem[];
+// }
 
-interface CourseItem {
-  title: string;
-  count: number;
-}
+// interface CourseItem {
+//   title: string;
+//   count: number;
+// }
 
 const checkLogin = (
   req: RequestWithBody,
@@ -47,7 +47,7 @@ export class CrawlerController {
     const analyzer = Analyzer1.getInstance();
     new Crawler(url, analyzer);
 
-    res.json(getResponseData<boolean>(true));
+    res.json(getResponseData<responseResult.getData>(true));
   }
 
   @get("/showData")
@@ -58,10 +58,10 @@ export class CrawlerController {
         path.resolve(__dirname, "../../data/course.json"),
         "utf8"
       );
-      res.json(getResponseData<DataStructure>(JSON.parse(result)));
+      res.json(getResponseData<responseResult.showData>(JSON.parse(result)));
       // res.json(JSON.parse(result));
     } catch (e) {
-      res.json(getResponseData<boolean>(false, "show error!"));
+      res.json(getResponseData<responseResult.showData>(false, "show error!"));
       // res.send("show error!");
     }
   }
